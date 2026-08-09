@@ -2508,6 +2508,8 @@ function reviveGame() {
     
     slot.forEach(card => {
         pile.push(card);
+        card.status = 'pile';
+        card.el.dataset.location = 'pile';
         card.el.style.left = card.x + 'px';
         card.el.style.top = card.y + 'px';
         card.el.style.zIndex = String(card.layer + 1);
@@ -2531,7 +2533,7 @@ function reviveGame() {
     renderTray(dom.slotArea, slot, SLOT_CAPACITY, 'slot');
     
     gameActive = true;
-    startTimer(Date.now() - elapsedSeconds * 1000);
+    startTimer(elapsedSeconds);
     updateGameUi();
     playSound('tool');
     vibrate([30, 50, 30]);
