@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'zlt-daily-';
-const CACHE_NAME = 'zlt-daily-v23';
+const CACHE_NAME = 'zlt-daily-v24';
 const INDEX_FALLBACK = './index.html';
 const APP_SHELL = [
     './',

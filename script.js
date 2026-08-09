@@ -111,6 +111,9 @@ function init() {
     try {
         if (!localStorage.getItem('zlt-tutorial-v1')) {
             showTutorial();
+            localStorage.setItem('zlt-announced-v24', '1');
+        } else if (!localStorage.getItem('zlt-announced-v24')) {
+            showUpdateAnnouncement();
         }
     } catch {}
 }
@@ -1442,6 +1445,20 @@ function showTutorial() {
         primaryText: '我知道了',
         onPrimary: () => {
             try { localStorage.setItem('zlt-tutorial-v1', '1'); } catch {}
+            closeDialog();
+        }
+    });
+}
+
+
+function showUpdateAnnouncement() {
+    configureModal({
+        kicker: '系统更新',
+        title: 'v24 版本公告',
+        message: '欢迎回来！本次重磅更新内容：\n\n1. 修好了复活后时间变成“天文数字”的漏洞。\n2. 修复了复活后部分卡牌“卡住”无法点击、甚至飞出屏幕的Bug。\n3. 视觉反馈增强：新增连击动态飘字与高能发光特效！\n4. 巅峰时刻：通关后会有全屏彩色礼花庆祝！\n5. 危机预警：卡槽即将装满时会有红框警报与微颤提示。\n\n此外，工具栏和背景图已经100%为你完美复原！祝你把把通关！',
+        primaryText: '我知道了，马上开玩',
+        onPrimary: () => {
+            try { localStorage.setItem('zlt-announced-v24', '1'); } catch {}
             closeDialog();
         }
     });

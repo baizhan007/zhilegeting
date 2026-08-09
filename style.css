@@ -51,21 +51,22 @@ button,
     position: fixed;
     inset: 0;
     z-index: 0;
-    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    background-color: #b8d6e9;
+    background-image: url("bg_small.jpg");
+    background-position: 55% center;
     background-size: cover;
-    background-position: center;
-    transition: background 0.5s ease;
 }
 
-@media (prefers-color-scheme: dark) {
-    .background {
-        background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
-    }
+.background::after {
+    position: absolute;
+    inset: 0;
+    content: "";
+    background: var(--color-photo-wash);
 }
 
 
 
-/* body[data-view="game"] .background removed for glassmorphism */
+/* body[data-view="game"] .background opacity removed so background stays visible */
 
 main {
     position: relative;
@@ -374,11 +375,9 @@ button:disabled {
     min-height: 15rem;
     flex: 1 1 auto;
     overflow: hidden;
-    background: var(--color-glass-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-block: 1px solid var(--color-glass-border);
-    box-shadow: var(--shadow-glass);
+    background: var(--color-board);
+    border-block: 1px solid #b7c3af;
+    box-shadow: inset 0 12px 28px rgb(58 84 61 / 0.08);
     outline: none;
 }
 
@@ -513,14 +512,7 @@ button:disabled {
 .tray-panel {
     flex: 0 0 auto;
     padding: var(--space-xs) var(--safe-inline-end) var(--space-sm) var(--safe-inline-start);
-    background: var(--color-glass-bg);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border-top: 1px solid var(--color-glass-border);
-    box-shadow: var(--shadow-glass);
-    position: relative;
-    transition: box-shadow 0.3s ease;
-    z-index: 10;
+    background: var(--color-paper);
 }
 
 .tray-head {
@@ -584,37 +576,24 @@ button:disabled {
 .toolbar {
     display: grid;
     min-height: 4.25rem;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--space-xs);
     align-items: center;
     padding: var(--space-xs) var(--safe-inline-end) var(--space-md) var(--safe-inline-start);
-    background: var(--color-glass-bg);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border-top: 1px solid var(--color-glass-border);
-    z-index: 10;
+    background: var(--color-paper-2);
+    border-top: 1px solid var(--color-rule);
 }
 
 .tool-btn {
     display: grid;
-    grid-template-columns: 2rem auto;
-    grid-template-rows: auto auto;
-    column-gap: var(--space-xs);
     align-items: center;
-    min-height: 3.5rem;
-    padding: 0 var(--space-md) 0 var(--space-xs);
-    border: 1px solid var(--color-glass-border);
-    border-radius: 100vmax;
+    border: 1px solid var(--color-rule);
+    border-radius: var(--radius-control);
     background: var(--color-paper-raised);
-    box-shadow: 0 4px 6px var(--color-shadow-soft), inset 0 -2px 0 rgb(0 0 0 / 0.1);
-    transition: transform 0.1s, box-shadow 0.1s;
+    box-shadow: 0 2px 0 rgb(32 43 45 / 0.08);
 }
 .tool-btn:active {
-    transform: scale(0.95);
-    box-shadow: 0 1px 2px var(--color-shadow-soft), inset 0 -1px 0 rgb(0 0 0 / 0.1);
-}
-@media (prefers-color-scheme: dark) {
-    .tool-btn { background: var(--color-paper-2); }
+    background: var(--color-paper-2);
 }
 
 .tool-icon {
