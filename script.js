@@ -649,6 +649,18 @@ function findMatch() {
     return [];
 }
 
+function showComboEffect(rect, comboCount, stageIdx) {
+    const el = document.createElement('div');
+    el.className = 'dynamic-combo-text';
+    const scoreAdd = 100 * comboCount + stageIdx * 25;
+    el.textContent = `+${scoreAdd} 连击x${comboCount}!`;
+    el.style.left = (rect.left + rect.width / 2) + 'px';
+    el.style.top = rect.top + 'px';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 1000);
+    if (comboCount >= 3) vibrate([30, 40, 50]);
+}
+
 function resolveMatch(match) {
     isResolving = true;
     match.forEach((card) => card.el.classList.add('removing'));
@@ -705,7 +717,10 @@ function resolveMatch(match) {
         renderTray(dom.slotArea, slot, SLOT_CAPACITY, 'slot');
         updateOcclusion();
         updateGameUi();
-        showToast('消除「' + label + '」 +' + (100 * combo + stageIndex * 25));
+        
+        if (combo > 1) showComboEffect(match[1].el.getBoundingClientRect(), combo, stageIndex);
+        
+        showToast('消除！' + label + '，+' + (100 * combo + stageIndex * 25));
         checkGameState();
         updateToolsStatus();
         saveGame();
@@ -905,6 +920,16 @@ function updateGameUi() {
     dom.score.textContent = score + ' 分';
     dom.stageProgress.style.width = (removed / total * 100) + '%';
     updateToolsStatus();
+    
+    // Danger State
+    if (slot.length === SLOT_CAPACITY - 1) {
+        if (!dom.slotArea.closest('.tray-panel').classList.contains('danger')) {
+            dom.slotArea.closest('.tray-panel').classList.add('danger');
+            vibrate([20, 50, 20]);
+        }
+    } else {
+        dom.slotArea.closest('.tray-panel').classList.remove('danger');
+    }
 }
 
 function updateToolsStatus() {
@@ -943,6 +968,54 @@ function showStageComplete() {
     });
 }
 
+function fireConfetti() {
+    const canvas = document.createElement('canvas');
+    canvas.id = 'confetti-canvas';
+    document.body.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    const pieces = [];
+    const colors = ['#f56565', '#d69e2e', '#319795', '#4299e1', '#9f7aea'];
+    for(let i=0; i<150; i++) {
+        pieces.push({
+            x: canvas.width / 2,
+            y: canvas.height / 2 + 100,
+            vx: (Math.random() - 0.5) * 25,
+            vy: (Math.random() - 1) * 25 - 5,
+            size: Math.random() * 10 + 5,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            rot: Math.random() * 360,
+            rotSpeed: (Math.random() - 0.5) * 20
+        });
+    }
+    
+    let active = true;
+    function draw() {
+        if (!active) return;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        let hasVisible = false;
+        pieces.forEach(p => {
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += 0.5; // gravity
+            p.rot += p.rotSpeed;
+            if (p.y < canvas.height) hasVisible = true;
+            
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.rot * Math.PI / 180);
+            ctx.fillStyle = p.color;
+            ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+            ctx.restore();
+        });
+        if (hasVisible) requestAnimationFrame(draw);
+        else { active = false; canvas.remove(); }
+    }
+    draw();
+}
+
 function showWin() {
     pauseTimer();
     gameActive = false;
@@ -951,6 +1024,7 @@ function showWin() {
     clearSavedGame();
     updateGameUi();
     playSound('win');
+    fireConfetti();
     vibrate([25, 45, 25, 45, 60]);
     launchCelebration();
     configureModal({

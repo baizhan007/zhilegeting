@@ -51,22 +51,21 @@ button,
     position: fixed;
     inset: 0;
     z-index: 0;
-    background-color: #b8d6e9;
-    background-image: url("bg_small.jpg");
-    background-position: 55% center;
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
     background-size: cover;
+    background-position: center;
+    transition: background 0.5s ease;
 }
 
-.background::after {
-    position: absolute;
-    inset: 0;
-    content: "";
-    background: var(--color-photo-wash);
+@media (prefers-color-scheme: dark) {
+    .background {
+        background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+    }
 }
 
-body[data-view="game"] .background {
-    opacity: 0;
-}
+
+
+/* body[data-view="game"] .background removed for glassmorphism */
 
 main {
     position: relative;
@@ -375,9 +374,11 @@ button:disabled {
     min-height: 15rem;
     flex: 1 1 auto;
     overflow: hidden;
-    background: var(--color-board);
-    border-block: 1px solid #b7c3af;
-    box-shadow: inset 0 12px 28px rgb(58 84 61 / 0.08);
+    background: var(--color-glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-block: 1px solid var(--color-glass-border);
+    box-shadow: var(--shadow-glass);
     outline: none;
 }
 
@@ -483,7 +484,9 @@ button:disabled {
 }
 
 .card:not(.blocked):active {
-    --card-lift: 0.125rem;
+    --card-lift: 0rem !important;
+    transform: scale(0.95) rotate(var(--card-rotation)) !important;
+    box-shadow: var(--shadow-card-hover) !important;
 }
 
 .card[data-location="slot"],
@@ -510,7 +513,14 @@ button:disabled {
 .tray-panel {
     flex: 0 0 auto;
     padding: var(--space-xs) var(--safe-inline-end) var(--space-sm) var(--safe-inline-start);
-    background: var(--color-paper);
+    background: var(--color-glass-bg);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-top: 1px solid var(--color-glass-border);
+    box-shadow: var(--shadow-glass);
+    position: relative;
+    transition: box-shadow 0.3s ease;
+    z-index: 10;
 }
 
 .tray-head {
@@ -574,28 +584,37 @@ button:disabled {
 .toolbar {
     display: grid;
     min-height: 4.25rem;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr) auto;
     gap: var(--space-xs);
-    padding: var(--space-2xs) var(--safe-inline-end) max(var(--space-xs), env(safe-area-inset-bottom, 0px)) var(--safe-inline-start);
-    background: var(--color-paper);
-    border-block-start: 1px solid var(--color-rule);
+    align-items: center;
+    padding: var(--space-xs) var(--safe-inline-end) var(--space-md) var(--safe-inline-start);
+    background: var(--color-glass-bg);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-top: 1px solid var(--color-glass-border);
+    z-index: 10;
 }
 
 .tool-btn {
-    position: relative;
     display: grid;
-    min-width: 0;
-    min-height: 3.5rem;
-    grid-template-columns: 2.125rem auto;
-    grid-template-rows: 1fr 1fr;
-    align-items: center;
-    justify-content: center;
+    grid-template-columns: 2rem auto;
+    grid-template-rows: auto auto;
     column-gap: var(--space-xs);
-    padding: var(--space-2xs);
-    color: var(--color-ink);
-    background: transparent;
-    border: 0;
-    cursor: pointer;
+    align-items: center;
+    min-height: 3.5rem;
+    padding: 0 var(--space-md) 0 var(--space-xs);
+    border: 1px solid var(--color-glass-border);
+    border-radius: 100vmax;
+    background: var(--color-paper-raised);
+    box-shadow: 0 4px 6px var(--color-shadow-soft), inset 0 -2px 0 rgb(0 0 0 / 0.1);
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+.tool-btn:active {
+    transform: scale(0.95);
+    box-shadow: 0 1px 2px var(--color-shadow-soft), inset 0 -1px 0 rgb(0 0 0 / 0.1);
+}
+@media (prefers-color-scheme: dark) {
+    .tool-btn { background: var(--color-paper-2); }
 }
 
 .tool-icon {
@@ -932,4 +951,56 @@ noscript {
 
 .combo-text.active {
     animation: combo-anim 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* -- JUICE FX -- */
+@keyframes cardGlow {
+    0% { box-shadow: 0 0 5px var(--color-yellow); transform: scale(1); }
+    50% { box-shadow: 0 0 25px var(--color-yellow), 0 0 40px var(--color-white); transform: scale(1.15); z-index: 100; filter: brightness(1.2); }
+    100% { box-shadow: 0 0 5px var(--color-yellow); transform: scale(0); opacity: 0; }
+}
+.card.removing {
+    animation: cardGlow 0.35s ease-out forwards !important;
+}
+
+@keyframes trayDangerPulse {
+    0% { box-shadow: inset 0 0 0 2px transparent, 0 -4px 20px rgba(229, 62, 62, 0); }
+    50% { box-shadow: inset 0 0 0 2px var(--color-error), 0 -4px 30px rgba(229, 62, 62, 0.5); }
+    100% { box-shadow: inset 0 0 0 2px transparent, 0 -4px 20px rgba(229, 62, 62, 0); }
+}
+.tray-panel.danger {
+    animation: trayDangerPulse 0.8s infinite;
+}
+.tray-panel.danger .card[data-location="slot"] {
+    animation: cardTremble 0.4s infinite;
+}
+@keyframes cardTremble {
+    0%, 100% { transform: translateX(0) rotate(0); }
+    25% { transform: translateX(-1px) rotate(-1deg); }
+    75% { transform: translateX(1px) rotate(1deg); }
+}
+
+.dynamic-combo-text {
+    position: fixed;
+    pointer-events: none;
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--color-yellow);
+    text-shadow: 0 4px 10px rgba(0,0,0,0.4), 0 0 20px var(--color-accent);
+    z-index: 9999;
+    animation: comboFloat 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+@keyframes comboFloat {
+    0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+    20% { transform: translate(-50%, -60%) scale(1.2); opacity: 1; }
+    100% { transform: translate(-50%, -100%) scale(1); opacity: 0; }
+}
+
+#confetti-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
 }
