@@ -12,7 +12,7 @@
     <link rel="preload" as="image" href="bg_small.jpg" fetchpriority="high">
     <link rel="icon" href="assets/icons/icon-192.png" type="image/png">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="stylesheet" href="style.css?v=21">
+    <link rel="stylesheet" href="style.css?v=23">
 </head>
 <body data-view="start">
     <div class="background" aria-hidden="true"></div>
@@ -50,7 +50,7 @@
                     <div><dt>通关</dt><dd id="stat-wins">0 次</dd></div>
                     <div><dt>最佳</dt><dd id="stat-best">--:--</dd></div>
                 </dl>
-                <p id="app-version" style="text-align: center; color: rgba(255, 255, 255, 0.8); text-shadow: 0 1px 3px rgba(0,0,0,0.8); font-size: 0.85rem; font-weight: bold; margin-top: 2rem; letter-spacing: 0.05em;">Build v21</p>
+                <p id="app-version" style="text-align: center; color: rgba(255, 255, 255, 0.8); text-shadow: 0 1px 3px rgba(0,0,0,0.8); font-size: 0.85rem; font-weight: bold; margin-top: 2rem; letter-spacing: 0.05em;">Build v23</p>
             </div>
         </section>
 
@@ -86,7 +86,10 @@
                     <span>卡槽</span>
                     <span id="slot-state">0 / 7</span>
                 </div>
-                <div class="slot-area tray" id="slot-area"></div>
+                <div class="slot-area tray" id="slot-area">
+                    <div class="slot-flash" id="slot-flash"></div>
+                    <div class="combo-text" id="combo-text"></div>
+                </div>
             </section>
 
             <section class="stash-panel" id="stash-panel" aria-label="暂存区" hidden>
@@ -131,6 +134,6 @@
     <noscript>需要启用 JavaScript 才能开始挑战。</noscript>
     <script src="challenge-engine.js?v=1"></script>
     <script src="audio-engine.js?v=2"></script>
-    <script src="script.js?v=21"></script></script>
+    <script src="script.js?v=23"></script></script>
 </body>
 </html>

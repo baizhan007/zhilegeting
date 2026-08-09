@@ -163,23 +163,23 @@
             return ready;
         }
 
-        play(type = 'tap') {
+        play(type = 'tap', pitchModifier = 1.0) {
             if (!this._enabled || document.hidden) return Promise.resolve(false);
             const context = this._context;
             if (context && context.state === 'running') {
-                this._playPattern(type);
+                this._playPattern(type, pitchModifier);
                 return Promise.resolve(true);
             }
 
             return this.unlock().then((ready) => {
                 if (!ready || !this._enabled || document.hidden) return false;
-                this._playPattern(type);
+                this._playPattern(type, pitchModifier);
                 return true;
             });
         }
 
-        wakeAndPlay(type = 'tap') {
-            return this.play(type);
+        wakeAndPlay(type = 'tap', pitchModifier = 1.0) {
+            return this.play(type, pitchModifier);
         }
 
         startMusic(options = {}) {
@@ -506,14 +506,14 @@
             }
         }
 
-        _playPattern(type) {
+        _playPattern(type, pitchModifier = 1.0) {
             const context = this._context;
             if (!context || context.state !== 'running' || !this._effectsGain) return;
             const pattern = SOUND_PATTERNS[type] || SOUND_PATTERNS.tap;
             const now = context.currentTime + 0.008;
             pattern.forEach(([frequency, delay, duration, volume, wave]) => {
                 this._createVoice({
-                    frequency,
+                    frequency: frequency * pitchModifier,
                     startTime: now + delay,
                     duration,
                     volume,

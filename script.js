@@ -132,6 +132,8 @@ function cacheDom() {
     dom.slotState = document.getElementById('slot-state');
     dom.comboBadge = document.getElementById('combo-badge');
     dom.status = document.getElementById('game-status');
+    dom.slotFlash = document.getElementById('slot-flash');
+    dom.comboText = document.getElementById('combo-text');
     dom.todayLabel = document.getElementById('today-label');
     dom.statStreak = document.getElementById('stat-streak');
     dom.statWins = document.getElementById('stat-wins');
@@ -650,12 +652,42 @@ function resolveMatch(match) {
     match.forEach((card) => card.el.classList.add('removing'));
     updateToolsStatus();
     updateOcclusion();
-    playSound('match');
-    vibrate([12, 35, 18]);
-
+    
     const now = Date.now();
-    combo = now - lastMatchAt <= 4200 ? combo + 1 : 1;
+    combo = now - lastMatchAt <= 4000 ? combo + 1 : 1;
     lastMatchAt = now;
+    
+    const pitchModifier = 1.0 + Math.min(combo - 1, 10) * 0.08;
+    playSound('match', pitchModifier);
+    vibrate([12, 35, 18]);
+    
+    // Screen shake
+    if (combo >= 2) {
+        dom.gameArea.classList.remove('shake');
+        void dom.gameArea.offsetWidth; // trigger reflow
+        dom.gameArea.classList.add('shake');
+    }
+    
+    // Slot flash
+    if (dom.slotFlash) {
+        dom.slotFlash.classList.remove('active');
+        void dom.slotFlash.offsetWidth;
+        dom.slotFlash.classList.add('active');
+    }
+    
+    // Combo floating text
+    if (combo >= 2 && dom.comboText) {
+        dom.comboText.classList.remove('active');
+        void dom.comboText.offsetWidth;
+        
+        if (combo === 2) { dom.comboText.textContent = '👍 NICE!'; dom.comboText.style.color = '#fff'; }
+        else if (combo === 3) { dom.comboText.textContent = '🔥 GREAT!'; dom.comboText.style.color = '#ffeb3b'; }
+        else if (combo === 4) { dom.comboText.textContent = '⚡ EXCELLENT!'; dom.comboText.style.color = '#ff9800'; }
+        else { dom.comboText.textContent = '💥 UNSTOPPABLE!'; dom.comboText.style.color = '#f44336'; }
+        
+        dom.comboText.classList.add('active');
+    }
+
     score += 100 * combo + stageIndex * 25;
     updateCombo();
 
@@ -686,7 +718,7 @@ function updateCombo() {
         comboTimer = window.setTimeout(() => {
             dom.comboBadge.hidden = true;
             combo = 0;
-        }, 4200);
+        }, 4000);
     }
 }
 
@@ -1091,9 +1123,9 @@ function wakeAudioAndPlay(type) {
     });
 }
 
-function playSound(type) {
+function playSound(type, pitchModifier = 1.0) {
     if (!soundEnabled || !window.AudioEngine) return;
-    window.AudioEngine.play(type);
+    window.AudioEngine.play(type, pitchModifier);
 }
 
 function startBackgroundMusic() {
