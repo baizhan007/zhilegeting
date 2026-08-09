@@ -1,0 +1,12 @@
+[Gemini Debug] OAuth exchange: POST https://oauth2.googleapis.com/token
+[Gemini Debug] OAuth exchange response: 400 Bad Request
+[Gemini Debug] OAuth exchange error body: {
+  "error": "invalid_grant",
+  "error_description": "Malformed auth code."
+}
+[Gemini Debug GEMINI-1] POST https://cloudcode-pa.googleapis.com/v1internal:loadCodeAssist
+[Gemini Debug GEMINI-1] Streaming: no
+[Gemini Debug GEMINI-1] Headers: {"authorization":"[redacted]","content-type":"application/json","user-agent":"GeminiCLI/0.42.0-nightly.20260428.g59b2dea0e/gemini-3.6-flash (win32; x64; terminal)","x-activity-request-id":"yzs19"}
+[Gemini Debug GEMINI-1] Body Preview: {"metadata":{"ideType":"IDE_UNSPECIFIED","platform":"PLATFORM_UNSPECIFIED","pluginType":"GEMINI"}}
+[Gemini Debug GEMINI-1] Response 200 OK (890ms)
+[Gemini Debug GEMINI-1] Response Headers: {"alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000","content-encoding":"gzip","content-type":"application/json; charset=UTF-8","date":"Fri, 07 Aug 2026 01:54:12 GMT","server":"ESF","server-timing":"gfet5t7;dur=316, gfet4t7; dur=579","transfer-encoding":"chunked","vary":"Origin, X-Origin, Referer","x-cloudaicompanion-trace-id":"16eac8ba13100ea3","x-content-type-options":"nosniff","x-frame-options":"SAMEORIGIN","x-xss-protection":"0"}

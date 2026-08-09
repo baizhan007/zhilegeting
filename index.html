@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#d95f45">
+    <meta name="description" content="给婷婷的每日三消挑战。">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="支了个婷">
+    <title>支了个婷</title>
+    <link rel="preload" as="image" href="bg_small.jpg" fetchpriority="high">
+    <link rel="icon" href="assets/icons/icon-192.png" type="image/png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="style.css?v=21">
+</head>
+<body data-view="start">
+    <div class="background" aria-hidden="true"></div>
+
+    <button id="btn-sound" class="chrome-btn sound-btn" type="button" aria-label="关闭音乐和音效" title="关闭音乐和音效">
+        <span aria-hidden="true">♪</span>
+    </button>
+
+    <main>
+        <section class="start-screen" id="start-screen" aria-labelledby="start-title">
+            <div class="start-content">
+                <p class="start-note" id="today-label">今日挑战</p>
+                <h1 id="start-title">支了个婷</h1>
+                <p class="start-copy">今天，也要漂亮地支棱住。</p>
+
+                <div class="challenge-route" aria-label="今日挑战共两关">
+                    <span class="route-step is-active"><b>1</b> 热身</span>
+                    <span class="route-line" aria-hidden="true"></span>
+                    <span class="route-step"><b>2</b> 挑战</span>
+                </div>
+
+                <div class="start-actions">
+                    <button id="btn-start-game" class="primary-btn" type="button">
+                        <span class="button-icon" aria-hidden="true">▶</span>
+                        <span id="start-button-label">开始今日挑战</span>
+                    </button>
+                    <button id="btn-help" class="text-btn" type="button">玩法说明</button>
+                    <button id="btn-new-game" class="text-btn" type="button" hidden>重新开始今日牌局</button>
+                    <button id="btn-install" class="text-btn" type="button" hidden>安装到手机</button>
+                    <button id="btn-update" class="text-btn" type="button" hidden>发现新版本，点击更新</button>
+                </div>
+
+                <dl class="start-stats" aria-label="挑战记录">
+                    <div><dt>连续</dt><dd id="stat-streak">0 天</dd></div>
+                    <div><dt>通关</dt><dd id="stat-wins">0 次</dd></div>
+                    <div><dt>最佳</dt><dd id="stat-best">--:--</dd></div>
+                </dl>
+                <p id="app-version" style="text-align: center; color: rgba(255, 255, 255, 0.8); text-shadow: 0 1px 3px rgba(0,0,0,0.8); font-size: 0.85rem; font-weight: bold; margin-top: 2rem; letter-spacing: 0.05em;">Build v21</p>
+            </div>
+        </section>
+
+        <section class="game-container" id="game-container" aria-labelledby="stage-name" hidden>
+            <header class="game-header">
+                <button id="btn-home-game" class="icon-btn" type="button" aria-label="返回封面" title="返回封面">
+                    <span aria-hidden="true">‹</span>
+                </button>
+                <div class="stage-heading">
+                    <p id="stage-kicker">第 1 关 · 今日挑战</p>
+                    <h1 id="stage-name">热身局</h1>
+                </div>
+                <div class="scoreboard">
+                    <span id="score">0 分</span>
+                    <time id="timer" datetime="PT0S">00:00</time>
+                </div>
+            </header>
+
+            <div class="stage-progress" aria-hidden="true">
+                <span id="stage-progress-bar"></span>
+            </div>
+
+            <div class="game-area" id="game-area" tabindex="-1" aria-label="牌堆">
+                <div class="board-meta">
+                    <span id="remaining-count">18 张</span>
+                    <span id="combo-badge" class="combo-badge" hidden>连击 ×2</span>
+                </div>
+                <p class="game-status" id="game-status" aria-live="polite"></p>
+            </div>
+
+            <section class="tray-panel" aria-label="卡槽">
+                <div class="tray-head">
+                    <span>卡槽</span>
+                    <span id="slot-state">0 / 7</span>
+                </div>
+                <div class="slot-area tray" id="slot-area"></div>
+            </section>
+
+            <section class="stash-panel" id="stash-panel" aria-label="暂存区" hidden>
+                <span>暂存</span>
+                <div class="stash-area tray" id="stash-area"></div>
+            </section>
+
+            <nav class="toolbar" aria-label="游戏道具">
+                <button id="btn-undo" class="tool-btn" type="button">
+                    <span class="tool-icon" aria-hidden="true">↶</span>
+                    <span class="tool-label">撤回</span>
+                    <small>1</small>
+                </button>
+                <button id="btn-stash" class="tool-btn" type="button">
+                    <span class="tool-icon" aria-hidden="true">⇧</span>
+                    <span class="tool-label">移出</span>
+                    <small>1</small>
+                </button>
+                <button id="btn-shuffle" class="tool-btn" type="button">
+                    <span class="tool-icon" aria-hidden="true">⤨</span>
+                    <span class="tool-label">洗牌</span>
+                    <small>1</small>
+                </button>
+            </nav>
+        </section>
+    </main>
+
+    <dialog class="modal" id="modal" aria-labelledby="modal-title" aria-describedby="modal-msg">
+        <div class="modal-content">
+            <p class="modal-kicker" id="modal-kicker">今日挑战</p>
+            <h2 id="modal-title">游戏结束</h2>
+            <p id="modal-msg" style="white-space: pre-wrap; line-height: 1.6; text-align: left; margin: 1rem 0;">卡槽已满，再试一次。</p>
+            <div class="result-stats" id="result-stats" hidden></div>
+            <div class="modal-actions">
+                <button id="modal-primary" class="primary-btn" type="button">再来一次</button>
+                <button id="modal-secondary" class="secondary-btn" type="button">返回封面</button>
+            </div>
+        </div>
+    </dialog>
+
+    <div class="celebration" id="celebration" aria-hidden="true"></div>
+    <noscript>需要启用 JavaScript 才能开始挑战。</noscript>
+    <script src="challenge-engine.js?v=1"></script>
+    <script src="audio-engine.js?v=2"></script>
+    <script src="script.js?v=21"></script></script>
+</body>
+</html>

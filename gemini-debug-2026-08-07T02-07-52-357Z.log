@@ -1,0 +1,55 @@
+[Gemini Debug] OAuth exchange: POST https://oauth2.googleapis.com/token
+[Gemini Debug] OAuth exchange response: 400 Bad Request
+[Gemini Debug] OAuth exchange error body: {
+  "error": "invalid_grant",
+  "error_description": "Malformed auth code."
+}
+[Gemini Debug GEMINI-1] POST https://cloudcode-pa.googleapis.com/v1internal:loadCodeAssist
+[Gemini Debug GEMINI-1] Project: opencode-504802
+[Gemini Debug GEMINI-1] Streaming: no
+[Gemini Debug GEMINI-1] Headers: {"authorization":"[redacted]","content-type":"application/json","user-agent":"GeminiCLI/0.42.0-nightly.20260428.g59b2dea0e/gemini-3.6-flash (win32; x64; terminal)","x-activity-request-id":"0f2xpb"}
+[Gemini Debug GEMINI-1] Body Preview: {"metadata":{"ideType":"IDE_UNSPECIFIED","platform":"PLATFORM_UNSPECIFIED","pluginType":"GEMINI","duetProject":"opencode-504802"},"cloudaicompanionProject":"opencode-504802"}
+[Gemini Debug GEMINI-1] Response 200 OK (1236ms)
+[Gemini Debug GEMINI-1] Response Headers: {"alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000","content-encoding":"gzip","content-type":"application/json; charset=UTF-8","date":"Fri, 07 Aug 2026 02:07:54 GMT","server":"ESF","server-timing":"gfet5t7;dur=343, gfet4t7; dur=944","transfer-encoding":"chunked","vary":"Origin, X-Origin, Referer","x-cloudaicompanion-trace-id":"bae8857629d5464a","x-content-type-options":"nosniff","x-frame-options":"SAMEORIGIN","x-xss-protection":"0"}
+[Gemini Debug GEMINI-1] Trace ID: bae8857629d5464a
+[Gemini Debug GEMINI-1] Response Body Preview: {
+  "allowedTiers": [
+    {
+      "id": "standard-tier",
+      "name": "Gemini Code Assist",
+      "description": "Unlimited coding assistant with the most powerful Gemini models",
+      "userDefinedCloudaicompanionProject": true,
+      "privacyNotice": {},
+      "isDefault": true,
+      "usesGcpTos": true
+    }
+  ],
+  "cloudaicompanionProject": "opencode-504802",
+  "ineligibleTiers": [
+    {
+      "reasonCode": "UNSUPPORTED_CLIENT",
+      "reasonMessage": "This client is no longer supported for Gemini Code Assist for individuals. To continue using Gemini, please migrate to the Antigravity suite of products: https://antigravity.google",
+      "tierId": "free-tier",
+      "tierName": "Gemini Code Assist for individuals"
+    }
+  ],
+  "gcpManaged": true
+}
+
+[Gemini Debug GEMINI-2] POST https://cloudcode-pa.googleapis.com/v1internal:streamGenerateContent?alt=sse
+[Gemini Debug GEMINI-2] Original URL: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:streamGenerateContent?alt=sse
+[Gemini Debug GEMINI-2] Project: opencode-504802
+[Gemini Debug GEMINI-2] Streaming: yes
+[Gemini Debug GEMINI-2] Headers: {"accept":"text/event-stream","authorization":"[redacted]","content-type":"application/json","user-agent":"GeminiCLI/0.42.0-nightly.20260428.g59b2dea0e/gemini-2.5-pro (win32; x64; terminal)","x-activity-request-id":"abhpd2","x-session-affinity":"ses_02605ebeeffe2N6slYlkTUJd0s","x-session-id":"ses_02605ebeeffe2N6slYlkTUJd0s"}
+[Gemini Debug GEMINI-2] Body Preview: {"project":"opencode-504802","model":"gemini-2.5-pro","user_prompt_id":"2403d4fc-5212-4716-b5d0-cb68c82197d4","request":{"generationConfig":{"maxOutputTokens":32000,"temperature":1,"topK":64,"topP":0.95,"thinkingConfig":{"includeThoughts":false}},"contents":[{"role":"user","parts":[{"text":"只回复:OK"}]}],"systemInstruction":{"parts":[{"text":"You are opencode, an interactive CLI agent specializing in software engineering tasks. Your primary goal is to help users safely and efficiently, adhering strictly to the following instructions and utilizing your available tools.\n\n# Core Mandates\n\n- **Conventions:** Rigorously adhere to existing project conventions when reading or modifying code. Analyze surrounding code, tests, and configuration first.\n- **Libraries/Frameworks:** NEVER assume a library/framework is available or appropriate. Verify its established usage within the project (check imports, configuration files like 'package.json', 'Cargo.toml', 'requirements.txt', 'build.gradle', etc., or observe neighboring files) before employing it.\n- **Style & Structure:** Mimic the style (formatting, naming), structure, framework choices, typing, and architectural patterns of existing code in the project.\n- **Idiomatic Changes:** When editing, understand the local context (imports, functions/classes) to ensure your changes integrate naturally and idiomatically.\n- **Comments:** Add code comments sparingly. Focus on *why* something is done, especially for complex logic, rather than *what* is done. Only add high-value comments if necessary for clarity or if requested by the user. Do not edit comments that are separate from the code you are changing. *NEVER* talk to the user or describe your changes through comments.\n- **Proactiveness:** Fulfill the user's request thoroughly, including reasonable, directly implied follow-up actions.\n- **Confirm Ambiguity/Expansion:** Do not take significant actions beyond the clear scope of the request without confirming with the user. If... (truncated 35649 chars)
+[Gemini Debug] Retry: attempt 1/3 -> https://cloudcode-pa.googleapis.com/v1internal:streamGenerateContent?alt=sse
+[Gemini Debug] Code Assist quota model lookup returned no buckets for project: opencode-504802
+[Gemini Debug GEMINI-3] POST https://cloudcode-pa.googleapis.com/v1internal:streamGenerateContent?alt=sse
+[Gemini Debug GEMINI-3] Original URL: https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:streamGenerateContent?alt=sse
+[Gemini Debug GEMINI-3] Project: opencode-504802
+[Gemini Debug GEMINI-3] Streaming: yes
+[Gemini Debug GEMINI-3] Headers: {"accept":"text/event-stream","authorization":"[redacted]","content-type":"application/json","user-agent":"GeminiCLI/0.42.0-nightly.20260428.g59b2dea0e/gemini-3.6-flash (win32; x64; terminal)","x-activity-request-id":"6klgom","x-session-affinity":"ses_02605ebeeffe2N6slYlkTUJd0s","x-session-id":"ses_02605ebeeffe2N6slYlkTUJd0s"}
+[Gemini Debug GEMINI-3] Body Preview: {"project":"opencode-504802","model":"gemini-3.6-flash","user_prompt_id":"92a799d8-6d4e-4247-baaf-0018db18e777","request":{"generationConfig":{"maxOutputTokens":32000,"temperature":0.5,"thinkingConfig":{"thinkingLevel":"minimal","includeThoughts":true}},"contents":[{"role":"user","parts":[{"text":"Generate a title for this conversation:\n"}]},{"role":"user","parts":[{"text":"只回复:OK"}]}],"systemInstruction":{"parts":[{"text":"You are a title generator. You output ONLY a thread title. Nothing else.\n\n<task>\nGenerate a brief title that would help the user find this conversation later.\n\nFollow all rules in <rules>\nUse the <examples> so you know what a good title looks like.\nYour output must be:\n- A single line\n- ≤50 characters\n- No explanations\n</task>\n\n<rules>\n- you MUST use the same language as the user message you are summarizing\n- Title must be grammatically correct and read naturally - no word salad\n- Never include tool names in the title (e.g. \"read tool\", \"bash tool\", \"edit tool\")\n- Focus on the main topic or question the user needs to retrieve\n- Vary your phrasing - avoid repetitive patterns like always starting with \"Analyzing\"\n- When a file is mentioned, focus on WHAT the user wants to do WITH the file, not just that they shared it\n- Keep exact: technical terms, numbers, filenames, HTTP codes\n- Remove: the, this, my, a, an\n- Never assume tech stack\n- Never use tools\n- NEVER respond to questions, just generate a title for the conversation\n- The title should NEVER include \"summarizing\" or \"generating\" when generating a title\n- DO NOT SAY YOU CANNOT GENERATE A TITLE OR COMPLAIN ABOUT THE INPUT\n- Always output something meaningful, even if the input is minimal.\n- If the user message is short or conversational (e.g. \"hello\", \"lol\", \"what's up\", \"hey\"):\n  → create a title that reflects the user's tone or intent (such as Greeting, Quick check-in, Light chat, Intro message, etc.)\n</rules>\n\n<examples>\n\"debug 500 erro... (truncated 667 chars)
+[Gemini Debug] Retry: attempt 1/3 -> https://cloudcode-pa.googleapis.com/v1internal:streamGenerateContent?alt=sse
+[Gemini Debug] Retry: attempt 1 success or non-retryable status: 403
+[Gemini Debug GEMINI-2] Response 403 Forbidden (1149ms)
